@@ -24,25 +24,6 @@ Just fork the project, and [rename](https://docs.github.com/en/github/administer
 
 That's it :)
 
-### Locally
-
-Clone the project including submodules using
-
-```bash
-git clone --recursive https://github.com/a-nau/markdownslides.git
-```
-
-The you can either [install Jekyll](https://jekyllrb.com/docs/installation/) and [run](https://jekyllrb.com/docs/usage/) it or use the provided Docker image.
-
-We recommend using the Docker image by following these steps:
-
-- [Install Docker](https://docs.docker.com/get-docker/) if you haven't already
-- Build the Docker image using `docker build -t jekyll .`
-- Run markdownslides with `docker run -v ${PWD}:/app -p 4000:4000 -it --rm --name markdownslides jekyll`
-- Reach the website under [http://localhost:4000/markdownslides/](http://localhost:4000/markdownslides/)
-
-For more information, also check out this [blog post](https://alcher.dev/2020/jekyll-on-docker/).
-
 ## What can it do?
 
 Check the [examples](https://a-nau.github.io/markdownslides/getting_started#/03_examples)!
