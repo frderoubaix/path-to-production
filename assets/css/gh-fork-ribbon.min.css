@@ -2,6 +2,27 @@
  * "Fork me on GitHub" CSS ribbon v0.2.3 | MIT License
  * https://github.com/simonwhitaker/github-fork-ribbon-css
 */
+
+.logo {
+  width: 8.1em;
+  height: 8.1em;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  pointer-events: none;
+  font-size: 13px;
+  text-decoration: none;
+  text-indent: -999999px;
+}
+
+.logo.left-bottom,
+.logo.right-bottom {
+  top: auto;
+  bottom: 0;
+}
+
 .github-fork-ribbon {
   width: 12.1em;
   height: 12.1em;
