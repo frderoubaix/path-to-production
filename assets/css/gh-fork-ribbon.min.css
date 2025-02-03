@@ -4,23 +4,31 @@
 */
 
 .logo {
-  width: 4.1em;
-  height: 2.1em;
+  width: auto;
+  height: 2em; /* Ajustez la hauteur selon vos besoins */
   position: absolute;
   overflow: hidden;
-  top: 0;
-  right: 0;
   z-index: 9999;
   pointer-events: none;
   font-size: 13px;
   text-decoration: none;
-  text-indent: -999999px;
 }
 
 .logo.left-bottom,
 .logo.right-bottom {
   top: auto;
   bottom: 0;
+}
+
+.logo.left-top,
+.logo.left-bottom {
+  left: 0;
+  right: auto;
+}
+
+.logo img {
+  height: 100%; /* Assurez-vous que les images s'ajustent à la hauteur du conteneur */
+  margin-right: 0.5em; /* Espace entre les logos */
 }
 
 .github-fork-ribbon {
