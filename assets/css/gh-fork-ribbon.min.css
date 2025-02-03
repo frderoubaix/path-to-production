@@ -5,13 +5,14 @@
 
 .logo {
   width: auto;
-  height: 2em; /* Ajustez la hauteur selon vos besoins */
+  height: 4em;
   position: absolute;
   overflow: hidden;
   z-index: 9999;
   pointer-events: none;
   font-size: 13px;
   text-decoration: none;
+  margin-bottom: 3em;
 }
 
 .logo.left-bottom,
@@ -27,8 +28,8 @@
 }
 
 .logo img {
-  height: 100%; /* Assurez-vous que les images s'ajustent à la hauteur du conteneur */
-  margin-right: 0.5em; /* Espace entre les logos */
+  height: 100%;
+  margin-right: 0.8em;
 }
 
 .github-fork-ribbon {
