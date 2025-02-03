@@ -5,15 +5,15 @@
 
 .logo {
   width: auto;
-  height: 4em;
+  height: 2,8em;
   position: absolute;
   overflow: hidden;
   z-index: 9999;
   pointer-events: none;
   font-size: 13px;
   text-decoration: none;
-  margin-bottom: 3em;
-  margin-left: 3em;
+  margin-bottom: 0,6em;
+  margin-left: 1em;
 }
 
 .logo.left-bottom,
