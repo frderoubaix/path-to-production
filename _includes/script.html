@@ -5,10 +5,13 @@
 <script src="{{ site.baseurl }}/assets/reveal.js/plugin/markdown/markdown.js"></script>
 <script src="{{ site.baseurl }}/assets/reveal.js/plugin/highlight/highlight.js"></script>
 <script src="{{ site.baseurl }}/assets/reveal.js/plugin/math/math.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
 <!-- reveal.js init -->
 <script>
+  // Initialize Mermaid
+  mermaid.initialize({ startOnLoad: false, theme: 'default' });
+
   // Full list of configuration options available here:
   // https://revealjs.com/config/
   Reveal.initialize({
@@ -27,6 +30,9 @@
       }
     },
     plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath]
+  }).then(() => {
+    // Render mermaid graphs after Reveal.js has loaded
+    mermaid.init(undefined, document.querySelectorAll('.mermaid'));
   });
 
   {% if site.slideNumber.format and site.slideNumber.format != "none" %}
