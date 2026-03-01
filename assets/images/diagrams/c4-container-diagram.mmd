@@ -1,0 +1,34 @@
+C4Container
+    title Container Diagram - Plateforme BDA Shotgun
+
+    Person(student, "Etudiant", "Achete ses billets")
+    Person(bda, "Membre BDA", "Gere les evenements")
+
+    System_Boundary(platform, "BDA Shotgun Platform") {
+        Container(catalog, "Catalog Service", "Spring Boot 4", "Evenements et stock de places")
+        ContainerDb(db_catalog, "DB Events", "PostgreSQL", "")
+        ContainerDb(redis, "Cache", "Redis", "Stock temps reel")
+
+        Container(payment, "Payment Service", "Spring Boot 4", "Wallets et paiements")
+        ContainerDb(db_payment, "DB Wallet", "PostgreSQL", "")
+
+        Container(broker, "Message Broker", "", "Bus evenements asynchrones")
+        Container(ticketing, "Ticketing Service", "Spring Boot 4", "Generation billets et controle acces")
+        ContainerDb(storage, "Storage", "", "Billets PDF")
+    }
+
+    System_Ext(mail, "Mailer", "Mailpit")
+
+    Rel(student, catalog, "Consulte / Reserve", "REST")
+    Rel(student, payment, "Paie", "REST")
+    Rel(bda, catalog, "Cree evenements", "REST")
+
+    Rel(catalog, db_catalog, "Persiste")
+    Rel(catalog, redis, "Verrouille stock")
+
+    Rel(payment, db_payment, "Persiste")
+    Rel(payment, broker, "Publie OrderPaid")
+
+    Rel(broker, ticketing, "Consomme")
+    Rel(ticketing, storage, "Stocke PDF")
+    Rel(ticketing, mail, "Envoie billet")

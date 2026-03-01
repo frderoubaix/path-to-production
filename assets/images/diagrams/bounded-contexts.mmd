@@ -1,0 +1,14 @@
+flowchart LR
+    subgraph Context_Vente [Context A - Vente]
+        A[Class Acheteur]
+        A --> B[Solde: float]
+        A --> C[Panier: List]
+    end
+
+    subgraph Context_Acces [Context B - Accès]
+        P[Class Participant]
+        P --> N[Nom: String]
+        P --> Q[QRCode: String]
+    end
+
+    A -.->|Lié par ID| P

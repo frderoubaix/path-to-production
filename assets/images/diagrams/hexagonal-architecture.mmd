@@ -1,0 +1,23 @@
+flowchart LR
+    subgraph Drivers [Infrastructure - Driver]
+        API[REST Controller]
+        CLI[Console APP]
+    end
+
+    subgraph Hexagon [HEXAGONE - Domaine]
+        PortIn([Port In - Interface])
+        Domain[Logique Metier]
+        PortOut([Port Out - Interface])
+    end
+
+    subgraph Driven [Infrastructure - Driven]
+        DB[(Postgres Adapter)]
+        Mail[(SMTP Adapter)]
+    end
+
+    API --> PortIn
+    CLI --> PortIn
+    PortIn -.->|implements| Domain
+    Domain --> PortOut
+    DB -.->|implements| PortOut
+    Mail -.->|implements| PortOut
