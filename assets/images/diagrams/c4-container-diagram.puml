@@ -1,0 +1,86 @@
+@startuml bda-shotgun-c4-containers
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ── Espacement & rendu ─────────────────────────────────────────────────────────
+skinparam linetype ortho
+skinparam nodesep 100
+skinparam ranksep 120
+skinparam padding 20
+skinparam wrapWidth 220
+skinparam ArrowMessageAlignment center
+skinparam defaultFontSize 12
+skinparam defaultTextAlignment center
+
+SetDefaultLegendEntries("")
+LAYOUT_TOP_DOWN()
+SHOW_PERSON_OUTLINE()
+
+title Container Diagram — Plateforme BDA Shotgun
+
+' ── Acteurs ────────────────────────────────────────────────────────────────────
+Person(student, "Étudiant", "Achète et gère ses billets\nvia le Frontend")
+Person(bda,     "Membre BDA", "Administre les événements\net valide les entrées")
+
+' ── Systèmes externes ──────────────────────────────────────────────────────────
+System_Ext(payment_gw, "Payment Gateway", "Passerelle de paiement")
+System_Ext(mailer,     "Mailer",          "Service d'envoi d'emails")
+
+' ── Plateforme ─────────────────────────────────────────────────────────────────
+System_Boundary(platform, "BDA Shotgun Platform") {
+
+    ' ── Frontend ───────────────────────────────────────────────────────────────
+    Container(frontend, "Frontend SPA [T4]", "Application web", "Listing événements · sélection siège\nTunnel paiement · espace étudiant\nDashboard admin · scan QR")
+
+    ' ── Catalog Service ────────────────────────────────────────────────────────
+    Container(catalog,    "Catalog Service [T1]",   "API REST",            "Gestion événements\nplan de salle · disponibilité sièges")
+    ContainerDb(db_catalog, "DB Catalog",            "Base de données",     "Événements, zones, sièges")
+    ContainerDb(redis,      "Cache",                  "Cache distribué",     "Verrous sièges temporaires")
+
+    ' ── Checkout Service ───────────────────────────────────────────────────────
+    Container(checkout,   "Checkout Service [T2]",  "API REST",            "Réservations · hold siège\nTunnel paiement · commandes")
+    ContainerDb(db_orders, "DB Orders",              "Base de données",     "Commandes, paiements")
+
+    ' ── Message Broker ─────────────────────────────────────────────────────────
+    Container(broker, "Message Broker", "Bus de messages", "Bus d'événements asynchrones\nentre services")
+
+    ' ── Ticketing Service ──────────────────────────────────────────────────────
+    Container(ticketing,  "Ticketing Service [T3]", "API REST",            "Génération billets PDF + QR\nContrôle accès · transfert · annulation")
+    ContainerDb(storage,    "Object Storage",        "Stockage fichiers",   "Billets PDF générés")
+
+}
+
+' ── Authentification ───────────────────────────────────────────────────────────
+System_Ext(auth0, "Auth0", "Fournisseur d'identité")
+
+' ══ Relations — Acteurs ════════════════════════════════════════════════════════
+Rel(student, frontend, "Utilise")
+Rel(bda,     frontend, "Administre / scanne")
+
+' ══ Relations — Frontend → Services ═══════════════════════════════════════════
+Rel(frontend, auth0,     "Authentification")
+Rel(frontend, catalog,   "Catalogue & disponibilité")
+Rel(frontend, checkout,  "Commande & paiement")
+Rel(frontend, ticketing, "Billets & scan QR")
+
+' ══ Relations — Catalog Service ═══════════════════════════════════════════════
+Rel(catalog, db_catalog,  "Lit / écrit")
+Rel(catalog, redis,       "Pose verrou HELD")
+Rel(catalog, broker,      "Publie EventCancelled",   "async")
+
+' ══ Relations — Checkout Service ══════════════════════════════════════════════
+Rel(checkout, catalog,     "COOP T2→T1\nvérifie dispo + verrou siège",  "sync")
+Rel(checkout, payment_gw,  "Débit CB")
+Rel(checkout, db_orders,   "Lit / écrit")
+Rel(checkout, broker,      "Publie OrderConfirmed",  "async")
+
+' ══ Relations — Ticketing Service ═════════════════════════════════════════════
+Rel(ticketing, storage,    "Stocke billets PDF")
+Rel(ticketing, mailer,     "Envoie billet par email")
+Rel(ticketing, broker,     "Publie TicketCancelled",  "async")
+
+' ══ Relations — Broker → consommateurs ════════════════════════════════════════
+Rel(broker, ticketing,  "COOP T2→T3 : livre OrderConfirmed",   "async")
+Rel(broker, checkout,   "COOP T1→T2 : livre EventCancelled",   "async")
+Rel(broker, catalog,    "COOP T3→T1 : livre TicketCancelled",  "async")
+
+@enduml
