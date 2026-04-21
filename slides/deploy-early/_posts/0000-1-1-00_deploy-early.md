@@ -79,11 +79,14 @@
 
 <!-- .slide: data-background="#ECEFF1" -->
 
-| Taille du lot | Nb de changements | Temps de debug moyen | Rollback possible ? |
-|:---:|:---:|:---:|:---:|
-| 1 feature | ~50 lignes | 10 min | ✅ Facile |
-| 1 sprint | ~500 lignes | 2h | ⚠️ Difficile |
-| 3 sessions | ~5000 lignes | ??? | ❌ Bonne chance |
+<table>
+  <thead><tr><th>Taille du lot</th><th>Nb de changements</th><th>Temps de debug moyen</th><th>Rollback possible ?</th></tr></thead>
+  <tbody>
+    <tr><td>1 feature</td><td>~50 lignes</td><td>10 min</td><td>✅ Facile</td></tr>
+    <tr><td>1 sprint</td><td>~500 lignes</td><td>2h</td><td>⚠️ Difficile</td></tr>
+    <tr><td>3 sessions</td><td>~5000 lignes</td><td>???</td><td>❌ Bonne chance</td></tr>
+  </tbody>
+</table>
 
 <p class="fragment" style="margin-top:1em;"><strong>Plus le diff est petit, plus le bug est facile à trouver.</strong></p>
 <p class="fragment">C'est une loi, pas une opinion.</p>
@@ -184,16 +187,19 @@
 
 <div style="font-size:0.85em;">
 
-| Session | Env | Objectif |
-|:---:|:---:|:---|
-| **S1** | local | Le squelette du service tourne en local |
-| **S2** | local | Pipeline CI passe ✅ — image Docker buildée |
-| **S3** | `dev` | Premier déploiement — au moins un endpoint live |
-| **S4** | `dev` | ⚠️ **Intégrations inter-équipes testées** |
-| **S5** | `dev` → `prod` | Premier déploiement en `prod` |
-| **S6–S7** | `prod` | Journées complètes : itérations prod, **monitoring actif** |
-| **S8** | `prod` | Stabilisation, observabilité, SLOs |
-| **S9** | `prod` | Shotgun — go live réel |
+<table>
+  <thead><tr><th>Session</th><th>Env</th><th>Objectif</th></tr></thead>
+  <tbody>
+    <tr><td><strong>S1</strong></td><td>local</td><td>Le squelette du service tourne en local</td></tr>
+    <tr><td><strong>S2</strong></td><td>local</td><td>Pipeline CI passe ✅ — image Docker buildée</td></tr>
+    <tr><td><strong>S3</strong></td><td><code>dev</code></td><td>Premier déploiement — au moins un endpoint live</td></tr>
+    <tr><td><strong>S4</strong></td><td><code>dev</code></td><td>⚠️ <strong>Intégrations inter-équipes testées</strong></td></tr>
+    <tr><td><strong>S5</strong></td><td><code>dev</code> → <code>prod</code></td><td>Premier déploiement en <code>prod</code></td></tr>
+    <tr><td><strong>S6–S7</strong></td><td><code>prod</code></td><td>Journées complètes : itérations prod, <strong>monitoring actif</strong></td></tr>
+    <tr><td><strong>S8</strong></td><td><code>prod</code></td><td>Stabilisation, observabilité, SLOs</td></tr>
+    <tr><td><strong>S9</strong></td><td><code>prod</code></td><td>Shotgun — go live réel</td></tr>
+  </tbody>
+</table>
 
 </div>
 
