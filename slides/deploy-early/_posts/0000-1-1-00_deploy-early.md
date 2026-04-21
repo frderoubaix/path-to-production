@@ -203,7 +203,7 @@
 
 </div>
 
-<p style="color:#ef5350; font-weight:bold; margin-top:0.8em;" class="fragment">On est en S4. Dev devrait tourner depuis S3. Il vous reste 5 sessions pour aller en prod.</p>
+<p style="color:#ef5350; font-weight:bold; margin-top:0.8em;" class="fragment">On est en S5. la Dev devrait tourner depuis S3. Il vous reste 5 sessions pour aller en prod.</p>
 
 ---
 
