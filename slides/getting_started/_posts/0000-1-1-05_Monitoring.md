@@ -390,17 +390,15 @@ Le tag `service:checkout-service` + `env:production` + `version:1.2.0` **corrèl
 
 > "Le Shotgun est lent." — OK, mais **où** exactement ?
 
-<div style="font-size:0.85em; margin-top:0.5em;">
-
-**Ce que Datadog APM vous donne :**
+<div style="font-size:0.8em; margin-top:0.4em;">
 
 <p class="fragment">🗺️ <strong>Service Map</strong> — visualisation graphique de qui appelle qui : <code>frontend → checkout → catalog</code>, avec latence et taux d'erreur sur chaque arc.</p>
 
 <p class="fragment">🔬 <strong>Flame Graph</strong> — pour une requête précise, chaque span (appel DB, appel HTTP, appel Redis) avec sa durée exacte. Vous voyez en 2 secondes si c'est la requête SQL ou l'appel COOP-01.</p>
 
-<p class="fragment">🔗 <strong>Log correlation</strong> — depuis une trace, cliquez sur "View related logs" et vous voyez tous les logs de tous les services pour cette requête unique (<code>traceId</code> commun).</p>
+<p class="fragment">🔗 <strong>Log correlation</strong> — depuis une trace → "View related logs" → tous les logs de tous les services pour cette requête unique (<code>traceId</code> commun).</p>
 
-<p class="fragment">📈 <strong>Automatic anomaly detection</strong> — Datadog détecte une augmentation de la latence P95 <em>avant</em> que vos utilisateurs se plaignent.</p>
+<p class="fragment">📈 <strong>Anomaly detection</strong> — Datadog détecte une augmentation de la latence P95 <em>avant</em> que vos utilisateurs se plaignent.</p>
 
 </div>
 
@@ -410,36 +408,40 @@ Le tag `service:checkout-service` + `env:production` + `version:1.2.0` **corrèl
 
 **Principe : métriques métier d'abord, infrastructure ensuite.**
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8em; font-size:0.78em; margin-top:0.5em;">
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6em; font-size:0.75em; margin-top:0.5em;">
 
-<div>
+<div style="background:#FFF8E1; padding:0.6em; border-radius:6px;">
 
-**Row 1 — Business KPIs** (le plus important)
-- Tickets vendus / minute (courbe temps réel)
-- Holds actifs en ce moment (jauge)
-- Taux de conversion hold → achat confirmé
+**📊 Business KPIs**
+- Tickets vendus / minute
+- Holds actifs (jauge)
+- Conversion hold → achat
 - Revenus générés (€)
 
-**Row 2 — Service Health**
-- Taux d'erreur HTTP par service (RED)
-- Latence P95 checkout et catalog
-- Statut des pods K8s (vert/rouge)
+</div>
+
+<div style="background:#FFF3E0; padding:0.6em; border-radius:6px;">
+
+**🔴 Service Health**
+- Taux d'erreur HTTP (RED)
+- Latence P95 checkout / catalog
+- Statut des pods K8s
 
 </div>
 
-<div>
+<div style="background:#FBE9E7; padding:0.6em; border-radius:6px;">
 
-**Row 3 — Infrastructure**
+**⚙️ Infrastructure**
 - CPU / Mémoire par pod
-- Connexions Redis (pic attendu à l'ouverture)
-- Lag Pulsar (messages en attente sur COOP-02/03/04)
-
-**Bonnes pratiques :**
-- 1 dashboard par équipe + 1 dashboard "Vue Globale Shotgun"
-- Annotations de déploiement (ligne verticale au moment du deploy)
-- Variables de template : `$env`, `$service`, `$version`
+- Connexions Redis
+- Lag Pulsar (COOP-02/03/04)
 
 </div>
+
+</div>
+
+<div class="fragment" style="font-size:0.75em; margin-top:0.6em; background:#ECEFF1; padding:0.6em; border-radius:6px;">
+💡 <strong>Bonnes pratiques :</strong> 1 dashboard par équipe + 1 "Vue Globale Shotgun" · Annotations de déploiement · Variables de template : <code>$env</code>, <code>$service</code>, <code>$version</code>
 </div>
 
 ---
