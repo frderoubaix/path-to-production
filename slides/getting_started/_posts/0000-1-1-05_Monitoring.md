@@ -106,7 +106,7 @@ Stop aux déploiements. Focus sur la fiabilité uniquement. Postmortem obligatoi
 
 > Le SLA est un **engagement juridiquement contraignant** envers un tiers, avec des **pénalités financières** en cas de non-respect. Ce n'est pas un outil interne d'ingénierie.
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:1em; font-size:0.83em; margin-top:0.8em;">
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8em; font-size:0.78em; margin-top:0.6em;">
 
 <div>
 
@@ -116,7 +116,7 @@ Stop aux déploiements. Focus sur la fiabilité uniquement. Postmortem obligatoi
 
 - **GCP / Azure** : même logique, SLA par service (Compute, Database, CDN...)
 
-- **Un hébergeur de votre appli** : si votre catalogue est down pendant le Gala à cause d'une panne infra hébergeur → vous pouvez invoquer le SLA pour obtenir un remboursement.
+- **Votre hébergeur** : si votre catalogue est down pendant le Gala à cause d'une panne infra → vous pouvez invoquer le SLA pour obtenir un remboursement.
 
 </div>
 
@@ -289,7 +289,7 @@ Chaque requête porte un `traceId` propagé entre tous les services via les head
 
 ## Logback — Pourquoi ça compte en prod <!-- .slide: data-background="#F3E5F5" -->
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:1em; font-size:0.82em;">
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8em; font-size:0.75em;">
 
 <div>
 
@@ -325,10 +325,10 @@ Chaque requête porte un `traceId` propagé entre tous les services via les head
 </div>
 </div>
 
-<div class="fragment" style="margin-top:0.8em; display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.8em; font-size:0.82em;">
-<div style="background:#E1BEE7; padding:0.6em; border-radius:6px;">📦 <strong>MDC</strong><br>Injecter automatiquement <code>traceId</code>, <code>userId</code>, <code>requestId</code> dans chaque log sans les passer manuellement.</div>
-<div style="background:#CE93D8; padding:0.6em; border-radius:6px; color:#fff;">🎚️ <strong>Niveaux par env</strong><br><code>DEBUG</code> en dev, <code>INFO/WARN</code> en prod. Jamais de <code>DEBUG</code> en prod → coût + bruit + fuite de données.</div>
-<div style="background:#AB47BC; padding:0.6em; border-radius:6px; color:#fff;">🔒 <strong>RGPD</strong><br>Masquer les PII avant de logger : email → hash, numéro de carte → jamais. Un log c'est de la donnée.</div>
+<div class="fragment" style="margin-top:0.5em; display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6em; font-size:0.75em;">
+<div style="background:#E1BEE7; padding:0.5em; border-radius:6px;">📦 <strong>MDC</strong><br>Injecter automatiquement <code>traceId</code>, <code>userId</code>, <code>requestId</code> dans chaque log sans les passer manuellement.</div>
+<div style="background:#CE93D8; padding:0.5em; border-radius:6px; color:#fff;">🎚️ <strong>Niveaux par env</strong><br><code>DEBUG</code> en dev, <code>INFO/WARN</code> en prod. Jamais de <code>DEBUG</code> en prod → coût + bruit + fuite de données.</div>
+<div style="background:#AB47BC; padding:0.5em; border-radius:6px; color:#fff;">🔒 <strong>RGPD</strong><br>Masquer les PII avant de logger : email → hash, numéro de carte → jamais. Un log c'est de la donnée.</div>
 </div>
 
 ---
@@ -343,7 +343,7 @@ Chaque requête porte un `traceId` propagé entre tous les services via les head
 
 ## Architecture Datadog dans le projet <!-- .slide: data-background="#FFF3E0" -->
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:1em; font-size:0.83em;">
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8em; font-size:0.78em;">
 
 <div>
 
@@ -355,7 +355,7 @@ Chaque requête porte un `traceId` propagé entre tous les services via les head
   DD_VERSION: 1.2.0
   DD_ENV: production
   ```
-- ✅ **Annotations Kubernetes** pour autodiscovery des logs (avec règle multiline pour les stack traces Java)
+- ✅ **Annotations Kubernetes** pour autodiscovery des logs (règle multiline pour stack traces Java)
 - ✅ **`@datadog/browser-logs`** dans le `package.json` frontend
 - ✅ **Spring Boot Actuator** → `/actuator/metrics` scrapable
 
@@ -410,7 +410,7 @@ Le tag `service:checkout-service` + `env:production` + `version:1.2.0` **corrèl
 
 **Principe : métriques métier d'abord, infrastructure ensuite.**
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:1em; font-size:0.83em; margin-top:0.5em;">
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8em; font-size:0.78em; margin-top:0.5em;">
 
 <div>
 
@@ -448,46 +448,70 @@ Le tag `service:checkout-service` + `env:production` + `version:1.2.0` **corrèl
 
 **Exemple : SLO checkout — latence P95 < 200ms**
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:1em; font-size:0.83em; margin-top:0.5em;">
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8em; font-size:0.78em; margin-top:0.5em;">
 
 <div>
 
 **Étape 1 — Choisir le bon SLI**
 ```
 Type : Metric-based SLO
-Numérateur : nombre de requêtes P95 < 200ms
+Numérateur : requêtes P95 < 200ms
 Dénominateur : total des requêtes
 ```
 
 **Étape 2 — Fixer le target**
 ```
-Target : 99.5% sur une fenêtre de 7 jours
+Target  : 99.5% sur 7 jours
 Warning : 99.8% (alerte préventive)
 ```
 
-**Étape 3 — Créer la Monitor associée**
-- Trigger quand le taux de "bon" descend sous 99.8%
+**Étape 3 — Monitor associée**
+- Trigger si taux "bon" < 99.8%
 - Notification : Slack `#bda-alerts`
-- Runbook link dans la description
+- Lien runbook dans la description
 
 </div>
 
 <div>
 
 **Ce que vous verrez dans Datadog :**
-
 - Barre de progression de l'error budget
 - "Il vous reste 83% de votre budget pour ce mois"
 - Alerte automatique si vous brûlez le budget trop vite
 
-**Exemples de SLOs BDA à définir :**
+**SLOs BDA à définir :**
 
-| Service | SLI | Target |
-|---------|-----|--------|
-| Catalog | Disponibilité /seats | 99.5% / 7j |
-| Checkout | Latence P95 hold | < 200ms |
-| Ticketing | Génération ticket | < 5s / 100% |
-| Frontend | Core Web Vitals LCP | < 2.5s |
+<table style="font-size:0.95em; width:100%; border-collapse:collapse;">
+  <thead>
+    <tr style="background:#A5D6A7;">
+      <th style="padding:0.3em 0.5em; text-align:left;">Service</th>
+      <th style="padding:0.3em 0.5em; text-align:left;">SLI</th>
+      <th style="padding:0.3em 0.5em; text-align:left;">Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#E8F5E9;">
+      <td style="padding:0.3em 0.5em;">Catalog</td>
+      <td style="padding:0.3em 0.5em;">Dispo /seats</td>
+      <td style="padding:0.3em 0.5em;">99.5% / 7j</td>
+    </tr>
+    <tr style="background:#C8E6C9;">
+      <td style="padding:0.3em 0.5em;">Checkout</td>
+      <td style="padding:0.3em 0.5em;">Latence P95 hold</td>
+      <td style="padding:0.3em 0.5em;">&lt; 200ms</td>
+    </tr>
+    <tr style="background:#E8F5E9;">
+      <td style="padding:0.3em 0.5em;">Ticketing</td>
+      <td style="padding:0.3em 0.5em;">Génération ticket</td>
+      <td style="padding:0.3em 0.5em;">100% / &lt; 5s</td>
+    </tr>
+    <tr style="background:#C8E6C9;">
+      <td style="padding:0.3em 0.5em;">Frontend</td>
+      <td style="padding:0.3em 0.5em;">LCP</td>
+      <td style="padding:0.3em 0.5em;">&lt; 2.5s</td>
+    </tr>
+  </tbody>
+</table>
 
 </div>
 </div>
@@ -496,7 +520,7 @@ Warning : 99.8% (alerte préventive)
 
 ## Alerting & Bonnes pratiques de tagging <!-- .slide: data-background="#FFEBEE" -->
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:1em; font-size:0.83em;">
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8em; font-size:0.78em;">
 
 <div>
 
@@ -504,7 +528,7 @@ Warning : 99.8% (alerte préventive)
 
 <p class="fragment" data-fragment-index="1">🔵 <strong>Log Monitor</strong> — "Plus de 10 ERROR en 1 min sur checkout-service"</p>
 <p class="fragment" data-fragment-index="2">🟡 <strong>Metric Monitor</strong> — "CPU catalog-service > 90% pendant 3 min"</p>
-<p class="fragment" data-fragment-index="3">🔴 <strong>Composite Monitor</strong> — "Latence élevée ET taux d'erreur en hausse" → c'est vraiment grave</p>
+<p class="fragment" data-fragment-index="3">🔴 <strong>Composite Monitor</strong> — "Latence élevée ET taux d'erreur en hausse"</p>
 <p class="fragment" data-fragment-index="4">💀 <strong>SLO Burn Rate Alert</strong> — "Vous brûlez votre error budget 14× plus vite que la normale"</p>
 
 </div>
@@ -526,8 +550,7 @@ team:t2
 ✅ Corréler une alerte avec le dernier déploiement  
 ✅ Calculer le coût infra par service  
 
-**Alert fatigue :**  
-Trop d'alertes = aucune alerte n'est prise au sérieux. Chaque alerte doit avoir un runbook et une action claire.
+<p class="fragment" style="color:#C62828; margin-top:0.4em;"><strong>Alert fatigue :</strong> Trop d'alertes = aucune prise au sérieux. Chaque alerte doit avoir un runbook et une action claire.</p>
 
 </div>
 </div>
@@ -647,7 +670,7 @@ Stabilité visuelle de la page (pas de saut de contenu).<br><br>
 
 **Installer le package et initialiser dans `main.ts` avant le bootstrap.**
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:1em; font-size:0.78em;">
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8em; font-size:0.75em;">
 
 <div>
 
@@ -660,17 +683,16 @@ datadogRum.init({
   clientToken: 'pub_xxxx',
   site: 'datadoghq.eu',
   service: 'bda-frontend',
-  env: environment.envName,    // 'production'
+  env: environment.envName,     // 'production'
   version: environment.version, // '1.2.0'
   sessionSampleRate: 100,
-  sessionReplaySampleRate: 20, // 20% en prod (coût)
+  sessionReplaySampleRate: 20,  // 20% en prod (coût)
   trackUserInteractions: true,
   trackResources: true,
   trackLongTasks: true,
-  defaultPrivacyLevel: 'mask-user-input', // RGPD
+  defaultPrivacyLevel: 'mask-user-input',
 })
 
-// Identifier l'utilisateur après login Auth0
 datadogRum.setUser({
   id: user.sub,
   email: user.email, // ⚠️ seulement si consentement
@@ -693,8 +715,8 @@ bootstrapApplication(AppComponent, appConfig)
 ✅ Corrélation avec les traces APM (même `traceId`)  
 
 **Bonnes pratiques Angular :**
-- `env` et `version` viennent des fichiers `environment.ts` / `environment.prod.ts`, injectés par la CI lors du build (`ng build --configuration production`)
-- `defaultPrivacyLevel: 'mask-user-input'` obligatoire — masque les champs form
+- `env` et `version` viennent de `environment.prod.ts`, injectés par la CI (`ng build --configuration production`)
+- `defaultPrivacyLevel: 'mask-user-input'` — masque les champs form (RGPD)
 - Initialiser **avant** `bootstrapApplication` pour capturer les erreurs au démarrage
 
 </div>
