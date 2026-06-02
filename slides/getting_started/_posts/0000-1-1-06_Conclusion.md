@@ -36,7 +36,7 @@
 
 <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1em; font-size:0.8em;">
 
-<div style="background:#37474f; padding:1em; border-radius:8px;">
+<div style="background:#F7FFE5; padding:1em; border-radius:8px;">
 <strong>Code & Réalisation</strong><br>
 <ul>
 <li>Qualité de l'implémentation (Backend & Frontend)</li>
@@ -45,7 +45,7 @@
 </ul>
 </div>
 
-<div style="background:#37474f; padding:1em; border-radius:8px;">
+<div style="background:#F7FFE5; padding:1em; border-radius:8px;">
 <strong>Validation & Tests</strong><br>
 <ul>
 <li>Couverture des tests fonctionnels (E2E)</li>
@@ -53,7 +53,7 @@
 </ul>
 </div>
 
-<div style="background:#37474f; padding:1em; border-radius:8px;">
+<div style="background:#F7FFE5; padding:1em; border-radius:8px;">
 <strong>Observabilité</strong><br>
 <ul>
 <li>Dashboards Datadog clairs & utiles</li>
@@ -61,7 +61,7 @@
 </ul>
 </div>
 
-<div style="background:#37474f; padding:1em; border-radius:8px;">
+<div style="background:#F7FFE5; padding:1em; border-radius:8px;">
 <strong>Documentation</strong><br>
 <ul>
 <li>Qualité des documents intégrés (README, Features, ...)</li>
